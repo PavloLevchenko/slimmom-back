@@ -10,8 +10,6 @@
 
 # testing
 /coverage
-/swagger
-swagger.js
 
 # misc
 .DS_Store
