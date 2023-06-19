@@ -8,7 +8,6 @@ const createCookie = (res, token) => {
     res.cookie(cookieName, token, {
       signed: true,
       expires,
-      httpOnly: true,
       sameSite: DEV_MODE ? 'none' : true,
       secure: !DEV_MODE,
     });
