@@ -17,9 +17,11 @@ app.use(cookieParser(cookieSecret));
 const formatsLogger = DEV_MODE ? 'dev' : 'short';
 
 app.use(logger(formatsLogger));
+
+const PUBLIC_URL = process.env.PUBLIC_URL;
 app.use(
   cors({
-    origin: true,
+    origin: DEV_MODE || PUBLIC_URL,
     credentials: true,
   })
 );

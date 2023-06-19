@@ -10,7 +10,7 @@ const createCookie = (res, token) => {
       expires,
       httpOnly: true,
       sameSite: DEV_MODE ? 'none' : true,
-      secure: DEV_MODE,
+      secure: !DEV_MODE,
     });
   } catch (error) {
     console.error(error);
