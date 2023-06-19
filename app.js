@@ -2,7 +2,7 @@ const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
 const path = require('path');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
@@ -12,8 +12,9 @@ const { handleErrors } = require('./middleware');
 
 const app = express();
 const cookieSecret = process.env.COOKIE_SECRET;
+const DEV_MODE = process.env.NODE_ENV === 'development';
 app.use(cookieParser(cookieSecret));
-const formatsLogger = process.env.NODE_ENV === 'development' ? 'dev' : 'short';
+const formatsLogger = DEV_MODE ? 'dev' : 'short';
 
 app.use(logger(formatsLogger));
 app.use(
