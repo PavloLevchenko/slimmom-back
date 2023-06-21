@@ -1,9 +1,5 @@
 const { Schema, model } = require('mongoose');
-const {
-  createToken,
-  expiresAccessTime,
-  expiresRefreshTime,
-} = require('../../helpers');
+const { createToken } = require('../../helpers');
 const bCrypt = require('bcryptjs');
 
 const usersSchema = new Schema(
@@ -66,11 +62,13 @@ usersSchema.methods = {
   },
   createAccessToken: function (sessionId) {
     const accessSecret = process.env.ACCESS_TOKEN_SECRET;
-    return createToken(sessionId, expiresAccessTime, accessSecret);
+    const accessTime = process.env.ACCESS_TIME;
+    return createToken(sessionId, accessTime, accessSecret);
   },
   createRefreshToken: function (sessionId) {
     const refreshSecret = process.env.REFRESH_TOKEN_SECRET;
-    return createToken(sessionId, expiresRefreshTime, refreshSecret);
+    const refreshTime = process.env.REFRESH_TIME;
+    return createToken(sessionId, refreshTime, refreshSecret);
   },
 };
 
