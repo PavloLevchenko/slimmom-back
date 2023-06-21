@@ -3,9 +3,9 @@ const passport = require('passport');
 const passportJWT = require('passport-jwt');
 const passportCookie = require('passport-cookie');
 const { sessionServise } = require('../service');
-const { cookieName } = require('../helpers');
 
 const refreshSecret = process.env.REFRESH_TOKEN_SECRET;
+const cookieName = process.env.COOKIE_NAME;
 
 const ExtractJWT = passportJWT.ExtractJwt;
 const Strategy = passportJWT.Strategy;
