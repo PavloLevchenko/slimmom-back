@@ -39,6 +39,12 @@ passport.use(
     },
     async function (req, token, done) {
       const payload = jwt.decode(token, { secretOrKey: accessSecret });
+
+      const expTime = new Date(payload.exp * 1000);
+      if (expTime.valueOf() < Date.now()) {
+        return done(new Error('Access expired'));
+      }
+
       const session = await sessionServise
         .findById(payload._id)
         .populate('owner');
