@@ -15,13 +15,13 @@ const cookieSecret = process.env.COOKIE_SECRET;
 const DEV_MODE = process.env.NODE_ENV === 'development';
 app.use(cookieParser(cookieSecret));
 const formatsLogger = DEV_MODE ? 'dev' : 'short';
+const origin = DEV_MODE ? process.env.LOCAL_URL : process.env.PUBLIC_URL;
 
 app.use(logger(formatsLogger));
 
-const PUBLIC_URL = process.env.PUBLIC_URL;
 app.use(
   cors({
-    origin: DEV_MODE || PUBLIC_URL,
+    origin,
     credentials: true,
   })
 );
