@@ -24,9 +24,13 @@ async function login(req, res, next) {
 
   await loginSchema.validateAsync(req.body);
   const user = await usersService.findOne({ email });
-  if (!user || !user.validPassword(password)) {
+
+  const validation = await user?.validPassword(password);
+
+  if (!user || !validation) {
     throw new Unauthorized('Incorrect login or password');
   }
+
   const session = await sessionServise.create({ owner: user._id });
   const refreshToken = user.createRefreshToken(session._id);
   const accessToken = user.createAccessToken(session._id);
