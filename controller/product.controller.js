@@ -14,14 +14,25 @@ const {
 async function getCalories(req, res, next) {
   await badProductsQuerySchema.validateAsync(req.query);
   const { skip, limit } = pageParams(req.query);
-  const { category } = req.query;
+  const { category, currentLanguage } = req.query;
   const query = {
     [`groupBloodNotAllowed.${req.body.bloodType}`]: true,
   };
+
   if (category) {
-    query.categories = category;
+    if (currentLanguage) {
+      query[`categories.${currentLanguage}`] = category;
+    } else {
+      query.$or = [
+        { 'categories.en': category },
+        { 'categories.de': category },
+        { 'categories.ua': category },
+        { 'categories.ru': category },
+      ];
+    }
   }
   const products = await productsService.find(query).skip(skip).limit(limit);
+
   const kCal = productCalc(req.body);
   const page = pageInfo(req.query, await productsService.countDocuments(query));
   return res.json({
@@ -74,17 +85,33 @@ async function getCategories(req, res, next) {
 
 async function getProducts(req, res, next) {
   await productsQuerySchema.validateAsync(req.query);
-  const { title, category } = req.query;
+  const { title, category, currentLanguage } = req.query;
   const { skip, limit } = pageParams(req.query);
   const titleRegex = searchRegex(title);
   const categoryRegex = searchRegex(category);
-  const query = {
-    $or: [
-      { 'title.ru': titleRegex },
-      { 'title.ua': titleRegex },
-      { categories: categoryRegex },
-    ],
-  };
+
+  let query = {};
+  if (currentLanguage) {
+    query = {
+      $or: [
+        { [`title.${currentLanguage}`]: titleRegex },
+        { [`categories.${currentLanguage}`]: categoryRegex },
+      ],
+    };
+  } else {
+    query = {
+      $or: [
+        { 'title.en': titleRegex },
+        { 'title.de': titleRegex },
+        { 'title.ua': titleRegex },
+        { 'title.ru': titleRegex },
+        { 'categories.en': categoryRegex },
+        { 'categories.de': categoryRegex },
+        { 'categories.ua': categoryRegex },
+        { 'categories.ru': categoryRegex },
+      ],
+    };
+  }
   const products = await productsService.find(query).skip(skip).limit(limit);
   const page = pageInfo(req.query, await productsService.countDocuments(query));
   return res.json({
