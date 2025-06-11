@@ -1,11 +1,18 @@
 const { Schema, model } = require('mongoose');
 
 const productsSchema = new Schema({
-  categories: [String],
+  categories: {
+    ru: String,
+    ua: String,
+    en: String,
+    de: String,
+  },
   weight: Number,
   title: {
     ru: String,
     ua: String,
+    en: String,
+    de: String,
   },
   calories: Number,
   groupBloodNotAllowed: {

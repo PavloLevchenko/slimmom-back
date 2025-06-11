@@ -43,10 +43,6 @@ const doc = {
   components: {
     requestBodies,
     responses,
-    schemas: {
-      ...requestBodies,
-      ...responses,
-    },
     securitySchemes: {
       bearerAuth: {
         type: 'http',

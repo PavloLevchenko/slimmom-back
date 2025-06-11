@@ -16,7 +16,8 @@ router.post('/api/products/', () => {
             schema: { $ref: '#/components/requestBodies/userParams' },
         }}}
   */
-  // #swagger.parameters['category'] = { example: 'зерновые' }
+  // #swagger.parameters['category'] = { example: 'зернові' }
+  // #swagger.parameters['currentLanguage'] = { example: 'uk' }
   // #swagger.parameters['currentPage'] = { example: '1' }
   // #swagger.parameters['pageSize'] = { example: '10' }
 });
@@ -55,6 +56,7 @@ router.get('/api/products/', () => {
   // #swagger.responses[400] = { description: 'Bad request' }
   // #swagger.parameters['title'] = { example: 'боби' }
   // #swagger.parameters['category'] = { example: 'зерно' }
+  // #swagger.parameters['currentLanguage'] = { example: 'uk' }
   // #swagger.parameters['currentPage'] = { example: '1' }
   // #swagger.parameters['pageSize'] = { example: '2' }
 });

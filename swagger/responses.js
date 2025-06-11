@@ -53,8 +53,10 @@ const noteCreatedSchema = Joi.object({
     owner: Joi.string().required().example('63a2648dbf09e070755d89be'),
     product: Joi.object({
       title: Joi.object({
-        ru: Joi.string().required().example('Меланж яичный'),
-        ua: Joi.string().required().example('Меланж яєчний'),
+        ru: Joi.string().required().example('яйца'),
+        ua: Joi.string().required().example('яйця'),
+        en: Joi.string().required().example('eggs'),
+        de: Joi.string().required().example('Eier'),
       }).required(),
       groupBloodNotAllowed: Joi.array()
         .items(Joi.boolean())
@@ -62,7 +64,16 @@ const noteCreatedSchema = Joi.object({
         .required()
         .example([null, true, false, false, false]),
       _id: Joi.string().required().example('5d51694802b2373622ff552c'),
-      categories: Joi.array().items(Joi.string()).required().example(['яйца']),
+      categories: Joi.array()
+        .items(
+          Joi.object({
+            ru: Joi.string().required(),
+            ua: Joi.string().required(),
+            en: Joi.string().required(),
+            de: Joi.string().required(),
+          })
+        )
+        .required(),
       weight: Joi.number().required().example(100),
       calories: Joi.number().required().example(157),
       __v: Joi.number().required().example(0),
@@ -81,6 +92,8 @@ const notesFindSchema = Joi.object({
         title: Joi.object({
           ru: Joi.string().required().example('Меланж яичный'),
           ua: Joi.string().required().example('Меланж яєчний'),
+          en: Joi.string().required().example('Egg melange'),
+          de: Joi.string().required().example('Eimelange'),
         }).required(),
         groupBloodNotAllowed: Joi.array()
           .items(Joi.boolean())
@@ -88,10 +101,12 @@ const notesFindSchema = Joi.object({
           .required()
           .example([null, true, false, false, false]),
         _id: Joi.string().required().example('5d51694802b2373622ff552c'),
-        categories: Joi.array()
-          .items(Joi.string())
-          .required()
-          .example(['яйца']),
+        categories: Joi.object({
+          ru: Joi.string().required().example('яйца'),
+          ua: Joi.string().required().example('яйця'),
+          en: Joi.string().required().example('eggs'),
+          de: Joi.string().required().example('Eier'),
+        }).required(),
         weight: Joi.number().required().example(100),
         calories: Joi.number().required().example(157),
         __v: Joi.number().required().example(0),
@@ -121,7 +136,16 @@ const categoriesSchema = Joi.object({
     size: Joi.number().required().example(20),
     total: Joi.number().required().example(15),
   }).required(),
-  titles: Joi.array().items(Joi.string()).required(),
+  titles: Joi.array()
+    .items(
+      Joi.object({
+        ru: Joi.string().required(),
+        ua: Joi.string().required(),
+        en: Joi.string().required(),
+        de: Joi.string().required(),
+      })
+    )
+    .required(),
 }).required();
 
 const badProductsFindSchema = Joi.object({
@@ -136,6 +160,8 @@ const badProductsFindSchema = Joi.object({
       title: Joi.object({
         ru: Joi.string().required().example('Меланж яичный'),
         ua: Joi.string().required().example('Меланж яєчний'),
+        en: Joi.string().required().example('Egg melange'),
+        de: Joi.string().required().example('Eimelange'),
       }).required(),
       groupBloodNotAllowed: Joi.array()
         .items(Joi.boolean())
@@ -143,7 +169,12 @@ const badProductsFindSchema = Joi.object({
         .required()
         .example([null, true, false, false, false]),
       _id: Joi.string().required().example('5d51694802b2373622ff552c'),
-      categories: Joi.array().items(Joi.string()).required().example(['яйца']),
+      categories: Joi.object({
+        ru: Joi.string().required().example('яйца'),
+        ua: Joi.string().required().example('яйця'),
+        en: Joi.string().required().example('eggs'),
+        de: Joi.string().required().example('Eier'),
+      }).required(),
       weight: Joi.number().required().example(100),
       calories: Joi.number().required().example(157),
       __v: Joi.number().required().example(0),
